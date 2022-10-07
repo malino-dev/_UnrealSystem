@@ -29,5 +29,8 @@ namespace UnrealSystem.Engine
         public T Get<T>() where T : struct => (T) _value;
 
         public object Get() => _value;
+        
+        public static implicit operator AxisValue(float f) => new AxisValue(f);
+        public static implicit operator AxisValue(Vector2 v) => new AxisValue(v);
     }
 }

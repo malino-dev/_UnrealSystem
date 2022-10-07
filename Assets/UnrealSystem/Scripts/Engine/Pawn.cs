@@ -10,8 +10,8 @@ namespace UnrealSystem.Engine
         private InputComponent _input;
         private PawnController _controller;
 
-        public event Action<string, AxisValue> AxisUpdated;
-        public event Action<string, float> ActionTriggered;
+        public event Action<PawnController> Possessed;
+        public event Action<PawnController> Unpossessed;
 
         private void Awake()
         {
@@ -20,31 +20,14 @@ namespace UnrealSystem.Engine
 
         public void Possess(PawnController controller)
         {
-            _input.Reset();
-            
             _controller = controller;
-            _controller.AxisUpdated += OnAxisUpdated;
-            _controller.ActionTriggered += OnActionTriggered;
+            Possessed?.Invoke(_controller);
         }
 
         public void Unpossess()
         {
-            _controller.AxisUpdated -= OnAxisUpdated;
-            _controller.ActionTriggered -= OnActionTriggered;
+            Unpossessed?.Invoke(_controller);
             _controller = null;
-
-            _input.Reset();
         }
-        
-        private void OnAxisUpdated(string key, AxisValue value)
-        {
-            AxisUpdated?.Invoke(key, value);
-        }
-
-        private void OnActionTriggered(string key, float value)
-        {
-            ActionTriggered?.Invoke(key, value);
-        }
-
     }
 }

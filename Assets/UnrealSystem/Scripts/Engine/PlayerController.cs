@@ -3,17 +3,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+
 namespace UnrealSystem.Engine
 {
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerController : PawnController
     {
-        public override event Action<string, AxisValue> AxisUpdated;
-        public override event Action<string, float> ActionTriggered;
-        
         private PlayerInput _input;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _input = GetComponent<PlayerInput>();
             
@@ -21,7 +20,7 @@ namespace UnrealSystem.Engine
             {
                 inputAction.performed += ctx =>
                 {
-                    ActionTriggered?.Invoke(inputAction.name, ctx.ReadValue<float>());
+                    RaiseAction(inputAction.name, ctx.ReadValue<float>());
                 };
             }
         }
@@ -38,7 +37,7 @@ namespace UnrealSystem.Engine
         {
             foreach (InputAction inputAction in _input.currentActionMap.actions.Where(a => a.type == InputActionType.Value))
             {
-                AxisUpdated?.Invoke(inputAction.name, new AxisValue(inputAction));
+                RaiseAxisUpdate(inputAction.name, new AxisValue(inputAction));
             }
         }
     }

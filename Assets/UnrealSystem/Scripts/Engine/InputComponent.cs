@@ -24,8 +24,22 @@ namespace UnrealSystem.Engine
 
         private void Start()
         {
-            _pawn.AxisUpdated += OnAxisUpdated;
-            _pawn.ActionTriggered += OnActionTriggered;
+            /*_pawn.AxisUpdated += OnAxisUpdated;
+            _pawn.ActionTriggered += OnActionTriggered;*/
+            _pawn.Possessed += OnPossessed;
+            _pawn.Unpossessed += OnUnpossessed;
+        }
+
+        private void OnPossessed(PawnController controller)
+        {
+            controller.AxisUpdated += OnAxisUpdated;
+            controller.ActionTriggered += OnActionTriggered;
+        }
+
+        private void OnUnpossessed(PawnController controller)
+        {
+            controller.AxisUpdated -= OnAxisUpdated;
+            controller.ActionTriggered -= OnActionTriggered;
         }
 
         public T ReadAxis<T>(string key) where T : struct

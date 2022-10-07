@@ -7,7 +7,18 @@ namespace UnrealSystem.Engine
     {
         [SerializeField] protected int controllerIndex = -1;
         
-        public abstract event Action<string, AxisValue> AxisUpdated;
-        public abstract event Action<string, float> ActionTriggered;
+        public event Action<string, AxisValue> AxisUpdated;
+        public event Action<string, float> ActionTriggered;
+
+        protected void RaiseAxisUpdate(string key, AxisValue value)
+        {
+            AxisUpdated?.Invoke(key, value);
+        }
+        
+        protected void RaiseAction(string key, float value = 1f)
+        {
+            ActionTriggered?.Invoke(key, value);
+        }
+
     }
 }
