@@ -30,7 +30,7 @@ namespace UnrealSystem.Engine
 
         public object Get() => _value;
         
-        public static implicit operator AxisValue(float f) => new AxisValue(f);
-        public static implicit operator AxisValue(Vector2 v) => new AxisValue(v);
+        public static implicit operator AxisValue(float f) => new(f);
+        public static implicit operator AxisValue(Vector2 v) => new(v);
     }
 }
