@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace UnrealSystem.Engine
 {
+    [RequireComponent(typeof(Pawn))]
     public class InputComponent : MonoBehaviour
     {
         private Pawn _pawn;

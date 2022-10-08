@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,8 +16,13 @@ namespace UnrealSystem.Engine
         protected virtual void Awake()
         {
             _input = GetComponent<PlayerInput>();
+
+            // TODO: implicitly only supports 1 action map!!!
+            IEnumerable<InputAction> inputActions = from a in _input.currentActionMap.actions
+                                                    where a.type == InputActionType.Button
+                                                    select a;
             
-            foreach (InputAction inputAction in _input.currentActionMap.actions.Where(a => a.type == InputActionType.Button))
+            foreach (var inputAction in inputActions)
             {
                 inputAction.performed += ctx =>
                 {
@@ -25,17 +31,14 @@ namespace UnrealSystem.Engine
             }
         }
 
-        protected virtual void Start()
-        {
-            foreach (var pawn in FindObjectsOfType<Pawn>().Where(p => p.autoPossessedBy == controllerIndex && p.autoPossessedBy != -1))
-            {
-                pawn.Possess(this);
-            }
-        }
-
         protected virtual void Update()
         {
-            foreach (InputAction inputAction in _input.currentActionMap.actions.Where(a => a.type == InputActionType.Value))
+            // TODO: implicitly only supports 1 action map!!!
+            IEnumerable<InputAction> inputActions = from a in _input.currentActionMap.actions
+                                                    where a.type == InputActionType.Value
+                                                    select a;
+            
+            foreach (InputAction inputAction in inputActions)
             {
                 RaiseAxisUpdate(inputAction.name, new AxisValue(inputAction));
             }

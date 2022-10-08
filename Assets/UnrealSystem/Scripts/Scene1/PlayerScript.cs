@@ -20,7 +20,7 @@ namespace UnrealSystem
 
         private void OnFire(float value)
         {
-            Debug.Log("[fire]");
+            Debug.Log("[Fire]");
         }
 
         private void OnMove(AxisValue value)

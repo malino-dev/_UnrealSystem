@@ -24,8 +24,11 @@ namespace UnrealSystem.Engine
             Possessed?.Invoke(_controller);
         }
 
-        public void Unpossess()
+        public void Unpossess(PawnController controller)
         {
+            if (controller != _controller)
+                throw new InvalidOperationException("can't unpossess if you're not the possessing");
+            
             Unpossessed?.Invoke(_controller);
             _controller = null;
         }

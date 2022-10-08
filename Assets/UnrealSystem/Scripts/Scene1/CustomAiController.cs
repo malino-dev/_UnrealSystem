@@ -6,24 +6,10 @@ using UnrealSystem.Engine;
 
 namespace UnrealSystem
 {
-    public class AiController : PawnController
+    public class CustomAiController : PawnController
     {
         private float _time = 0f;
         private float _multiplier = 1f;
-
-        private void Start()
-        {
-            IEnumerable<Pawn> pawns = FindObjectsOfType<Pawn>();
-
-            pawns = from p in pawns 
-                    where p.autoPossessedBy == controllerIndex && p.autoPossessedBy != -1
-                    select p;
-            
-            foreach (var pawn in pawns)
-            {
-                pawn.Possess(this);
-            }
-        }
 
         private void Update()
         {
